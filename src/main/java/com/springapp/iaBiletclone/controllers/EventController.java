@@ -30,6 +30,7 @@ public class EventController {
 
     //addorder
         //pentru un utilzator se iau ticketitemurile din shopping cartul lui, se sterg si se construiesc order items
+    //
 
 
 
