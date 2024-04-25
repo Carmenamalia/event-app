@@ -1,7 +1,6 @@
 package com.springapp.iaBiletclone.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,32 +12,29 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double normalPrice;
-    private Double earlyBirdPrice;
-
-    private LocalDateTime earlyBirdExpireDate;
-    private Long quantity;
-    @ManyToMany(mappedBy = "tickets", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference("tickets-ticketCategories")
-    private Set<TicketCategory> ticketCategories;
+    private Long price;
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    @JsonBackReference("ticket-event")
+    @JsonBackReference("event-ticket")
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "shoppingcart_id")
-    @JsonBackReference("tickets-shoppingcart")
-    private ShoppingCart shoppingCart;
+    @JoinColumn(name = "ticketCategory_id")
+    @JsonBackReference("ticketcategory-ticket")
+    private TicketCategory ticketCategory;
 
-    @OneToOne(mappedBy = "ticket", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("ticket-voucher")
-    private Voucher voucher;
     @ManyToOne
     @JoinColumn(name = "order_id")
     @JsonBackReference("order-ticket")
     private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "shoppingcart_id")
+    @JsonBackReference("shoppingcart-ticket")
+    private ShoppingCart shoppingcart;
 
     public Ticket() {
     }
@@ -51,36 +47,20 @@ public class Ticket {
         this.id = id;
     }
 
-    public Double getNormalPrice() {
-        return normalPrice;
+    public Long getPrice() {
+        return price;
     }
 
-    public void setNormalPrice(Double normalPrice) {
-        this.normalPrice = normalPrice;
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
-    public Double getEarlyBirdPrice() {
-        return earlyBirdPrice;
+    public TicketStatus getStatus() {
+        return status;
     }
 
-    public void setEarlyBirdPrice(Double earlyBirdPrice) {
-        this.earlyBirdPrice = earlyBirdPrice;
-    }
-
-    public LocalDateTime getEarlyBirdExpireDate() {
-        return earlyBirdExpireDate;
-    }
-
-    public void setEarlyBirdExpireDate(LocalDateTime earlyBirdExpireDate) {
-        this.earlyBirdExpireDate = earlyBirdExpireDate;
-    }
-
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 
     public Event getEvent() {
@@ -91,28 +71,12 @@ public class Ticket {
         this.event = event;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
+    public TicketCategory getTicketCategory() {
+        return ticketCategory;
     }
 
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
-    }
-
-    public Voucher getVoucher() {
-        return voucher;
-    }
-
-    public void setVoucher(Voucher voucher) {
-        this.voucher = voucher;
-    }
-
-    public Set<TicketCategory> getTicketCategories() {
-        return ticketCategories;
-    }
-
-    public void setTicketCategories(Set<TicketCategory> ticketCategories) {
-        this.ticketCategories = ticketCategories;
+    public void setTicketCategory(TicketCategory ticketCategory) {
+        this.ticketCategory = ticketCategory;
     }
 
     public Order getOrder() {
@@ -122,4 +86,13 @@ public class Ticket {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    public ShoppingCart getShoppingcart() {
+        return shoppingcart;
+    }
+
+    public void setShoppingcart(ShoppingCart shoppingcart) {
+        this.shoppingcart = shoppingcart;
+    }
+
 }

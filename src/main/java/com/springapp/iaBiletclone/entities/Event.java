@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Event {
@@ -24,9 +23,10 @@ public class Event {
     @JsonBackReference("location-event")
     private Location location;
 
-    @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("eventCategory-event")
-    private Set<EventCategory> eventCategory;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonBackReference("category-event")
+    private Category category;
     @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("ticket-event")
     private List<Ticket> tickets;
@@ -74,6 +74,14 @@ public class Event {
         this.soldOut = soldOut;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Location getLocation() {
         return location;
     }
@@ -82,12 +90,12 @@ public class Event {
         this.location = location;
     }
 
-    public Set<EventCategory> getCategory() {
-        return eventCategory;
+    public Category getEventCategory() {
+        return category;
     }
 
-    public void setCategory(Set<EventCategory> eventCategory) {
-        this.eventCategory = eventCategory;
+    public void setEventCategory(Category category) {
+        this.category = category;
     }
 
     public List<Ticket> getTickets() {

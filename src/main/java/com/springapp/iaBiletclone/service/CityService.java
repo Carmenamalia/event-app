@@ -24,19 +24,15 @@ public class CityService {
     public City addCity(City city) {
         return cityRepository.save(city);
     }
-    public List<City> findAllCitiesWithEvents(){
+
+    public List<City> findAllCitiesWithEvents() {
         return cityRepository.findAll();
     }
 
-/* @Transactional
-    public void deleteAllTweetsFromUser1(Long userId) throws Exception {
-        User user = userRepository.findById(userId).orElseThrow(() -> new Exception("user not found"));
-        tweetRepository.deleteAllInBatch(user.getTweets());
 
- */
     @Transactional
-    public void deleteCityById(Long cityId){
-        City city = cityRepository.findById(cityId).orElseThrow(()->new RuntimeException("city not found"));
+    public void deleteCityById(Long cityId) {
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new RuntimeException("city not found"));
         cityRepository.delete(city);
 
     }

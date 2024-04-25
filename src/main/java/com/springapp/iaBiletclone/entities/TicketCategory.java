@@ -1,6 +1,7 @@
 package com.springapp.iaBiletclone.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,13 +17,8 @@ public class TicketCategory {
     private String categoryType;//( VIP,GENERAL_ACCESS)
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "ticket-ticketcategory",
-            joinColumns = @JoinColumn(name = "ticket_id"),
-            inverseJoinColumns = @JoinColumn(name = "ticketcategory_id")
-    )
-    @JsonBackReference("tickets-ticketCategories")
+    @OneToMany(mappedBy = "ticketCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference("ticketcategory-ticket")
     private List<Ticket> tickets;
 
 
@@ -37,6 +33,13 @@ public class TicketCategory {
         this.id = id;
     }
 
+    public String getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
 
     public List<Ticket> getTickets() {
         return tickets;

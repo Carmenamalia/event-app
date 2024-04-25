@@ -7,17 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/city")
+@RequestMapping("/cities")
 public class CityController {
       /*Adaug un nou oraș în care pot avea loc evenimente (ADMIN)
       Văd toate orașele în care au loc evenimente (ADMIN, OWNER, CLIENT)
       Șterg un oraș (ADMIN)
      */
 
-    CityService cityService;
+    private CityService cityService;
 
     @Autowired
     public CityController(CityService cityService) {
@@ -25,10 +26,10 @@ public class CityController {
     }
 
     //Adaug un nou oraș în care pot avea loc evenimente (ADMIN)
-    @PostMapping("/")
-    public ResponseEntity<City> addCity(@RequestBody City city) {
-        City newCity = cityService.addCity(city);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCity);
+    @PostMapping( value = "/", consumes = {"*/*"})
+    public ResponseEntity<City> addCity(@RequestBody City newCity) {
+        City city = cityService.addCity(newCity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(city);
     }
 
     //Văd toate orașele în care au loc evenimente (ADMIN, OWNER, CLIENT)

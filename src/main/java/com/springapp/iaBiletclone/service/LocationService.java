@@ -19,6 +19,7 @@ public class LocationService {
 
     //    Adaug o nouă locație în care pot avea loc evenimente (ADMIN, OWNER)
     public Location addLocation(Location location) {
+
         return locationRepository.save(location);
     }
 

@@ -3,35 +3,38 @@ package com.springapp.iaBiletclone.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
+
     private String password;
+
+    private String email;
+
+    @OneToMany(mappedBy = "user",  cascade = {CascadeType.PERSIST, CascadeType.MERGE},orphanRemoval = true)
+    @JsonManagedReference("order-user")
+    private List<Order> orders;
+
     @ManyToMany(mappedBy ="users",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference("users-roles")
+    @JsonManagedReference("user-role")
     private Set<Role> roles;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("user-shoppingcart")
     private ShoppingCart shoppingCart;
 
-    @OneToMany(mappedBy = "user",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("user-order")
-    private List<Order> orders;
-    @OneToMany(mappedBy = "user",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("users-city")
-    private List<City> cityList;
 
     public User() {
     }
+
 
     public Long getId() {
         return id;
@@ -58,9 +61,6 @@ public class User {
     }
 
     public Set<Role> getRoles() {
-        if (roles == null){
-            roles = new HashSet<>();
-        }
         return roles;
     }
 
@@ -84,11 +84,11 @@ public class User {
         this.orders = orders;
     }
 
-    public List<City> getCityList() {
-        return cityList;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCityList(List<City> cityList) {
-        this.cityList = cityList;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

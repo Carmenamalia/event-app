@@ -1,7 +1,9 @@
 package com.springapp.iaBiletclone.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 //TODO
 //de schimbat un eventCategory sa aiba mai multe Event
@@ -13,19 +15,19 @@ import jakarta.persistence.*;
 
 //de adaugat order are mai multe orderItem
 @Entity
-public class EventCategory {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String categoryName;//concert,standup,teatru
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    @JsonBackReference("category-event")
-    private Event event;
+
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("category-event")
+    private List<Event> events;
 
 
-    public EventCategory() {
+    public Category() {
     }
 
     public Long getId() {
@@ -44,13 +46,11 @@ public class EventCategory {
         this.categoryName = categoryName;
     }
 
-    public Event getEvent() {
-        return event;
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
-
-
 }

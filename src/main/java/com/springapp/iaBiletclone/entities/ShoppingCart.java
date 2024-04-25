@@ -12,7 +12,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "shoppingCart",cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "shoppingcart",cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("shoppingcart-ticket")
     Set<Ticket> tickets;
 
@@ -21,10 +21,6 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id")
     private User  user;
 
-    @OneToOne
-    @JsonBackReference("order-shoppingcart")
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     public Long getId() {
         return id;
@@ -50,11 +46,5 @@ public class ShoppingCart {
         this.user = user;
     }
 
-    public Order getOrder() {
-        return order;
-    }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

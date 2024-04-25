@@ -3,10 +3,10 @@ package com.springapp.iaBiletclone.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class Role {
 
     @ManyToMany
     @JoinTable(
-            name = "user_role",
+            name = "user-role",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonBackReference("users-roles")
+    @JsonBackReference("user-role")
     private Set<User> users;
 
     public Role() {
@@ -44,9 +44,6 @@ public class Role {
     }
 
     public Set<User> getUsers() {
-        if (users == null){
-            users = new HashSet<>();
-        }
         return users;
     }
 

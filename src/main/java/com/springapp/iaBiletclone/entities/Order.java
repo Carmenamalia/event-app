@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,7 @@ public class Order {
     private Long id;
 
     private Double totalPrice;
+    private LocalDateTime orderDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference("order-user")
@@ -22,9 +24,6 @@ public class Order {
     @JsonManagedReference("order-ticket")
     private List<Ticket> tickets;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("order-shoppingcart")
-    private ShoppingCart shoppingCart;
 
     public Order() {
     }
@@ -61,11 +60,11 @@ public class Order {
         this.tickets = tickets;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 }

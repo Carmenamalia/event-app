@@ -1,4 +1,4 @@
-package com.springapp.iaBiletclone.config;
+package com.springapp.iaBiletclone.evceptionhandler;
 
 import com.springapp.iaBiletclone.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
