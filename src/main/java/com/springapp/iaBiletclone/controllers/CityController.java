@@ -14,10 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/cities")
 public class CityController {
-      /*Adaug un nou oraș în care pot avea loc evenimente (ADMIN)
-      Văd toate orașele în care au loc evenimente (ADMIN, OWNER, CLIENT)
-      Șterg un oraș (ADMIN)
-     */
 
     private CityService cityService;
 
@@ -37,7 +33,7 @@ public class CityController {
 
     //Văd toate orașele în care au loc evenimente (ADMIN, OWNER, CLIENT)
     @GetMapping("/")
-    public ResponseEntity<List<City>> viewAllCitiesWithEvents() {
+    public ResponseEntity<List<City>> getAllCitiesWithEvents() {
         List<City> cities = cityService.getCitiesWithEvents();
         return ResponseEntity.ok(cities);
     }

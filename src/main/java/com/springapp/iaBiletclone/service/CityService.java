@@ -1,6 +1,6 @@
 package com.springapp.iaBiletclone.service;
 
-import com.springapp.iaBiletclone.dtos.CityRequestDTO;
+
 import com.springapp.iaBiletclone.entities.City;
 import com.springapp.iaBiletclone.repositories.CityRepository;
 import com.springapp.iaBiletclone.repositories.LocationRepository;
@@ -33,6 +33,7 @@ public class CityService {
     }
 
     //Văd toate orașele în care au loc evenimente (ADMIN, OWNER, CLIENT)
+
     public List<City> getCitiesWithEvents() {
         return locationRepository.findAll().stream()
                 .filter(location -> !location.getEvents().isEmpty())

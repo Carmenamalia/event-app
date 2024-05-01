@@ -7,6 +7,7 @@ import com.springapp.iaBiletclone.repositories.CityRepository;
 import com.springapp.iaBiletclone.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class LocationService {
     }
 
     //    Șterg o locație (ADMIN, OWNER)
+    @Transactional
     public void deleteLocation(Long locationId) {
         Location location = locationRepository.findById(locationId).orElseThrow(()->new RuntimeException("Location not found"));
         locationRepository.delete(location);
