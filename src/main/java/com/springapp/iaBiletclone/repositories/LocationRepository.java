@@ -11,6 +11,5 @@ import java.util.List;
 public interface LocationRepository extends JpaRepository<Location,Long> {
 
     List<Location> findAllByCityName(String cityName);
-    @Query("SELECT DISTINCT l FROM Location l JOIN FETCH l.events")
-    List<Location> findLocationsWithEvents();
+
 }

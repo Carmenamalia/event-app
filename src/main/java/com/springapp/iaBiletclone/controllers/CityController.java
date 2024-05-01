@@ -1,5 +1,6 @@
 package com.springapp.iaBiletclone.controllers;
 
+import com.springapp.iaBiletclone.dtos.CityRequestDTO;
 import com.springapp.iaBiletclone.entities.City;
 import com.springapp.iaBiletclone.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,18 @@ public class CityController {
     }
 
     //Adaug un nou oraș în care pot avea loc evenimente (ADMIN)
-    @PostMapping( value = "/", consumes = {"*/*"})
-    public ResponseEntity<City> addCity(@RequestBody City newCity) {
-        City city = cityService.addCity(newCity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(city);
+    @PostMapping("/")
+    public ResponseEntity<?> addCity(@RequestBody CityRequestDTO cityRequestDTO) {
+        City city = new City();
+        city.setName(cityRequestDTO.getName());
+        City savedCity = cityService.addCity(city);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCity);
     }
 
     //Văd toate orașele în care au loc evenimente (ADMIN, OWNER, CLIENT)
     @GetMapping("/")
     public ResponseEntity<List<City>> viewAllCitiesWithEvents() {
-        List<City> cities = cityService.findAllCitiesWithEvents();
+        List<City> cities = cityService.getCitiesWithEvents();
         return ResponseEntity.ok(cities);
     }
 
