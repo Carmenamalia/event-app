@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Event {
@@ -13,23 +15,28 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String eventName;
+
     private String description;
+
     private LocalDateTime date;
+
     private boolean soldOut;
 
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    @JsonBackReference("location-event")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", nullable = false)
+    @JsonBackReference("location-events")
     private Location location;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    @JsonBackReference("category-event")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference("category-events")
     private Category category;
+
     @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("ticket-event")
-    private List<Ticket> tickets;
+    @JsonManagedReference("event-ticketcategories")
+    private Set<TicketCategory> ticketCategories = new HashSet<>();
 
     public Event() {
     }
@@ -67,19 +74,12 @@ public class Event {
     }
 
     public boolean isSoldOut() {
+
         return soldOut;
     }
 
     public void setSoldOut(boolean soldOut) {
         this.soldOut = soldOut;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Location getLocation() {
@@ -90,19 +90,19 @@ public class Event {
         this.location = location;
     }
 
-    public Category getEventCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setEventCategory(Category category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public Set<TicketCategory> getTicketCategories() {
+        return ticketCategories;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setTicketCategories(Set<TicketCategory> ticketCategories) {
+        this.ticketCategories = ticketCategories;
     }
 }

@@ -12,15 +12,19 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "shoppingcart",cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("shoppingcart-ticket")
-    Set<Ticket> tickets;
 
-    @OneToOne
+    @OneToMany(mappedBy = "shoppingcart", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("shoppingcart-ticketitems")
+    private Set<TicketItem> ticketItems;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonBackReference("user-shoppingcart")
-    @JoinColumn(name = "user_id")
-    private User  user;
+    @JoinColumn(name = "user_id", nullable = false)
+//nullable = false: Asigură că fiecare coș de cumpărături este asociat unui utilizator (nu poate exista un coș de cumpărături fără utilizator)
+    private User user;
 
+    public ShoppingCart() {
+    }
 
     public Long getId() {
         return id;
@@ -30,12 +34,12 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public Set<Ticket> getTickets() {
-        return tickets;
+    public Set<TicketItem> getTicketItems() {
+        return ticketItems;
     }
 
-    public void setTickets(Set<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setTicketItems(Set<TicketItem> ticketItems) {
+        this.ticketItems = ticketItems;
     }
 
     public User getUser() {

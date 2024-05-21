@@ -1,9 +1,12 @@
 package com.springapp.iaBiletclone.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 //Generez un cod voucher, pentru o categorie de bilete de la un eveniment (ADMIN, OWNER)
 //Voucher-ul ar trebui să aibă:
@@ -16,13 +19,21 @@ public class Voucher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String code;
-    private LocalDateTime expireDate;
+
+    private LocalDateTime expirationDate;
+
     private Double discount;
-    @OneToOne
-    @JsonBackReference("ticket-voucher")
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference("ticketcategory-voucher")
+    @JoinColumn(name = "ticket_category_id", nullable = false)
+    private TicketCategory ticketCategory;
+
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("voucher-orderitem")
+    private Set<OrderItem> orderItems = new HashSet<>();
 
     public Voucher() {
     }
@@ -43,12 +54,12 @@ public class Voucher {
         this.code = code;
     }
 
-    public LocalDateTime getExpireDate() {
-        return expireDate;
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExpireDate(LocalDateTime expireDate) {
-        this.expireDate = expireDate;
+    public void setExpirationDate(LocalDateTime expireDate) {
+        this.expirationDate = expireDate;
     }
 
     public Double getDiscount() {
@@ -59,11 +70,19 @@ public class Voucher {
         this.discount = discount;
     }
 
-    public Ticket getTicket() {
-        return ticket;
+    public TicketCategory getTicketCategory() {
+        return ticketCategory;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setTicketCategory(TicketCategory ticketCategory) {
+        this.ticketCategory = ticketCategory;
+    }
+
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

@@ -16,10 +16,11 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL)
-    @JsonManagedReference("city-location")
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("city-locations")
     private Set<Location> locations = new HashSet<>();
 
 

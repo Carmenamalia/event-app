@@ -12,16 +12,22 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
     private String address;
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    @JsonBackReference("city-location")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id", nullable = false)
+    @JsonBackReference("city-locations")
     private City city;
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    @JsonManagedReference("location-event")
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("location-events")
     private Set<Event> events;
 
+    public Location() {
+    }
 
     public Long getId() {
         return id;

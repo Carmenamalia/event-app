@@ -1,9 +1,11 @@
 package com.springapp.iaBiletclone.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,29 +14,29 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long price;
+
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    @JsonBackReference("event-ticket")
-    private Event event;
+    @Column(nullable = false)
+    private int totalTickets;
 
-    @ManyToOne
-    @JoinColumn(name = "ticketCategory_id")
+    @Column(nullable = false)
+    private int soldTickets = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ticketCategory_id", nullable = false)
     @JsonBackReference("ticketcategory-ticket")
     private TicketCategory ticketCategory;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    @JsonBackReference("order-ticket")
-    private Order order;
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TicketItem> ticketItems = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "shoppingcart_id")
-    @JsonBackReference("shoppingcart-ticket")
-    private ShoppingCart shoppingcart;
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderItem> orderItems = new HashSet<>();
+
 
     public Ticket() {
     }
@@ -63,12 +65,20 @@ public class Ticket {
         this.status = status;
     }
 
-    public Event getEvent() {
-        return event;
+    public int getTotalTickets() {
+        return totalTickets;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setTotalTickets(int totalTickets) {
+        this.totalTickets = totalTickets;
+    }
+
+    public int getSoldTickets() {
+        return soldTickets;
+    }
+
+    public void setSoldTickets(int soldTickets) {
+        this.soldTickets = soldTickets;
     }
 
     public TicketCategory getTicketCategory() {
@@ -79,20 +89,19 @@ public class Ticket {
         this.ticketCategory = ticketCategory;
     }
 
-    public Order getOrder() {
-        return order;
+    public Set<TicketItem> getTicketItems() {
+        return ticketItems;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setTicketItems(Set<TicketItem> ticketItems) {
+        this.ticketItems = ticketItems;
     }
 
-    public ShoppingCart getShoppingcart() {
-        return shoppingcart;
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setShoppingcart(ShoppingCart shoppingcart) {
-        this.shoppingcart = shoppingcart;
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
-
 }

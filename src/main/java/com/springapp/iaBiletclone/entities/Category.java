@@ -3,7 +3,9 @@ package com.springapp.iaBiletclone.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //TODO
 //de schimbat un eventCategory sa aiba mai multe Event
@@ -20,11 +22,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String categoryName;//concert,standup,teatru
 
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("category-event")
-    private List<Event> events;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("category-events")
+    private Set<Event> events = new HashSet<>();
 
 
     public Category() {
@@ -46,11 +49,11 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public List<Event> getEvents() {
+    public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(Set<Event> events) {
         this.events = events;
     }
 }
