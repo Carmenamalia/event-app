@@ -1,11 +1,9 @@
 package com.springapp.iaBiletclone.repositories;
 
-import com.springapp.iaBiletclone.entities.Order;
+import com.springapp.iaBiletclone.entities.TicketItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order,Long> {
-
-
+public interface TicketItemRepository extends JpaRepository<TicketItem,Long> {
 }

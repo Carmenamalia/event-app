@@ -2,7 +2,6 @@ package com.springapp.iaBiletclone.repositories;
 
 import com.springapp.iaBiletclone.entities.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

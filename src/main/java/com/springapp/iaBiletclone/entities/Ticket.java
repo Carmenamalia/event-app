@@ -1,10 +1,8 @@
 package com.springapp.iaBiletclone.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +16,7 @@ public class Ticket {
     private Long price;
 
     @Enumerated(EnumType.STRING)
-    private TicketStatus status;
+    private TicketStatus ticketStatus;
 
     @Column(nullable = false)
     private int totalTickets;
@@ -57,12 +55,12 @@ public class Ticket {
         this.price = price;
     }
 
-    public TicketStatus getStatus() {
-        return status;
+    public TicketStatus getTicketStatus() {
+        return ticketStatus;
     }
 
-    public void setStatus(TicketStatus status) {
-        this.status = status;
+    public void setTicketStatus(TicketStatus ticketStatus) {
+        this.ticketStatus = ticketStatus;
     }
 
     public int getTotalTickets() {

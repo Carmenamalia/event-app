@@ -18,7 +18,7 @@ public class LocationService {
     private CityRepository cityRepository;
 
     @Autowired
-    public LocationService(LocationRepository locationRepository,CityRepository cityRepository) {
+    public LocationService(LocationRepository locationRepository, CityRepository cityRepository) {
         this.locationRepository = locationRepository;
         this.cityRepository = cityRepository;
     }
@@ -26,7 +26,7 @@ public class LocationService {
     //    Adaug o nouă locație în care pot avea loc evenimente (ADMIN, OWNER)
     public Location addLocation(LocationRequestDTO locationRequestDTO) {
         Location newLocation = new Location();
-        City city = cityRepository.findById(locationRequestDTO.getCityId()).orElseThrow(()->new RuntimeException("City not found "));
+        City city = cityRepository.findById(locationRequestDTO.getCityId()).orElseThrow(() -> new RuntimeException("City not found "));
         newLocation.setName(locationRequestDTO.getName());
         newLocation.setAddress(locationRequestDTO.getAddress());
         newLocation.setCity(city);
@@ -40,14 +40,14 @@ public class LocationService {
     }
 
     //    Văd locațiile din orașul meu (ADMIN, OWNER, CLIENT)
-        public List<Location> findAllBy(String cityName) {
+    public List<Location> findAllBy(String cityName) {
         return locationRepository.findAllByCityName(cityName);
     }
 
     //    Șterg o locație (ADMIN, OWNER)
     @Transactional
     public void deleteLocation(Long locationId) {
-        Location location = locationRepository.findById(locationId).orElseThrow(()->new RuntimeException("Location not found"));
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> new RuntimeException("Location not found"));
         locationRepository.delete(location);
 
     }

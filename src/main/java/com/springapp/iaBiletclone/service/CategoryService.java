@@ -1,12 +1,10 @@
 package com.springapp.iaBiletclone.service;
 
-import com.springapp.iaBiletclone.dtos.CategoryRequestDTO;
+
 import com.springapp.iaBiletclone.entities.Category;
-import com.springapp.iaBiletclone.entities.Event;
 import com.springapp.iaBiletclone.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,9 +23,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-
     //Văd toate categoriile de evenimente (ADMIN, OWNER, CLIENT)
-
     public List<Category> getAllCategories() {
         List<Category> categoryList = categoryRepository.findAll();
         return categoryList;
@@ -39,6 +35,4 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-
-    //Șterg o categorie de evenimente (ADMIN)
 }

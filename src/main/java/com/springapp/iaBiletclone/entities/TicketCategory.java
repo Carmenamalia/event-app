@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,6 +26,8 @@ public class TicketCategory {
     private BigDecimal normalPrice;
 
     private LocalDateTime earlybirdEndDate;
+
+    private BigDecimal currentPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
@@ -83,6 +84,14 @@ public class TicketCategory {
 
     public void setEarlybirdEndDate(LocalDateTime earlybirdEndDate) {
         this.earlybirdEndDate = earlybirdEndDate;
+    }
+
+    public BigDecimal getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(BigDecimal currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
     public Event getEvent() {

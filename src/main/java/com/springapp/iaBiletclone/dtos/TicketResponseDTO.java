@@ -4,29 +4,27 @@ import com.springapp.iaBiletclone.entities.TicketStatus;
 
 import java.math.BigDecimal;
 
+public class TicketResponseDTO {
 
-public class TicketRequestDTO {
-
-
-
+    private Long id;
     private BigDecimal price;
-
     private TicketStatus ticketStatus;
     private int totalTickets;
+    private int soldTickets;
     private Long ticketCategoryId;
 
+    public TicketResponseDTO() {
+    }
 
-    public TicketRequestDTO() {}
+    public Long getId() {
+        return id;
+    }
 
-    public TicketRequestDTO(BigDecimal price, TicketStatus ticketStatus, int totalTickets, Long ticketCategoryId) {
-        this.price = price;
-        this.ticketStatus = ticketStatus;
-        this.totalTickets = totalTickets;
-        this.ticketCategoryId = ticketCategoryId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getPrice() {
-
         return price;
     }
 
@@ -48,6 +46,14 @@ public class TicketRequestDTO {
 
     public void setTotalTickets(int totalTickets) {
         this.totalTickets = totalTickets;
+    }
+
+    public int getSoldTickets() {
+        return soldTickets;
+    }
+
+    public void setSoldTickets(int soldTickets) {
+        this.soldTickets = soldTickets;
     }
 
     public Long getTicketCategoryId() {
